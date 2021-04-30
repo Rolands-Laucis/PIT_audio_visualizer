@@ -26,7 +26,9 @@
 main{
 	height: 100%;
 
-	background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
+	/*
+	background: linear-gradient(45deg, #d53369 0%, #daae51 100%);
+	*/
 }
 
 input[type="file"] {
@@ -35,6 +37,7 @@ input[type="file"] {
 
 .canvas_panel{
 	text-align: center;
+	padding-top: 4%;
 	padding-bottom: 2%;
 }
 

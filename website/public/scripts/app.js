@@ -1,21 +1,15 @@
+//this script settings, that arent in the users control
 var canvasHeight = 500
 var the_Song = null
 var fft = null
+var windowWidthOffset = 35
+var bands = []
 
 //vizualization config
-var band_count = 3
-var band_colors = {"1":{"color":"#3A756D", "amp":0.7},
-                    "2":{"color":"#85A18D", "amp":0.5},
-                    "3":{"color":"#D14257", "amp":1}}
-var freq_spec_res = 128
-var viz_FPS = 60
-var changing_bg = false
-var bg_color = '#6E32CF'
+var vizConfig = {}
 
 //Video Capture config
-var cap_FPS = 60
-var cap_interval = 10
-var format = "WebM" 
+var capCofig = {}
 
 function preload() {
     soundFormats('mp3');
@@ -24,10 +18,11 @@ function preload() {
 
 function setup() {
     //setup canvas to be in the right div on the site
-    let c = createCanvas(windowWidth, canvasHeight)
+    let c = createCanvas(windowWidth-windowWidthOffset, canvasHeight)
     c.parent(document.getElementById('vizualization_canvas'))
     getAudioContext().suspend()
-    frameRate(viz_FPS)
+    frameRate(60)
+    p5bezier.initBezier(c)
 
     console.log("Canvas initialized, can start drawing...")
 
@@ -35,15 +30,24 @@ function setup() {
     bg = color(54, 55, 67, 255)
     background(bg)
 
-    fft = new p5.FFT(0.8, freq_spec_res);
+    fft = new p5.FFT(0.8, vizConfig['FFT_res']);
 }
 
 function draw() {
-    background(bg);
+    //background(bg);
+
+    bands.forEach(b => {
+        //b.UpdatePoints()
+        b.Draw()
+    })
 
     if(the_Song != null && the_Song.isPlaying()){
-        var spectrum = fft.analyze(freq_spec_res);
+        var spectrum = fft.analyze(vizConfig['FFT_res']);
         
+        bands.forEach(b => {
+            //b.UpdatePoints()
+            b.Draw()
+        })
     }
 }
 
@@ -69,11 +73,29 @@ function LoadSong(song){
 }
 
 function VizConfig(options){
+    vizConfig = options
+    frameRate(vizConfig['FPS'])
 
+    bands.length = 0
+    for(i = 0; i < vizConfig['Band_count']; i++){
+        bands.push(new Band({'width':windowWidth-windowWidthOffset, 
+                            'height':canvasHeight, 
+                            'fidelity':7, 'point_count':5, 
+                            'color':vizConfig['Band_colors'][i], 
+                            'amp':vizConfig['Band_amps'][i],
+                            'thickness':5
+                            }))
+    }
+
+    console.log(bands)
+}
+
+function CapConfig(options){
+    capCofig = options
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, canvasHeight);
+    resizeCanvas(windowWidth-windowWidthOffset, canvasHeight);
 }
 
 function Random(min, max) {
