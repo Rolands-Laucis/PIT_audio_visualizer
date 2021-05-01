@@ -2,16 +2,22 @@
 	//visualization panel options
 	let vizCofigPanel = true;
 	let Band_count = 3
-	let Band_colors = ['ffffff','ffffff','ffffff']
-	let Band_amps = ['1','1','1']
-	let FFT_resolutions = [16,32,64,128]
+	let Band_colors = []
+	let Band_amps = []
+	let FFT_resolutions = [16,32,64,128,256,512,1024]
 	let FFT_res = 64
 	let FPS = 60
 	let Changing_bg = false
 
+	//option defaults
+	let def_colors = ['214753','2E542D','CC5620','E58C29','F4AD2B']
+	let def_amp = 1;
 	let vizOptions = {}
 
 	ChangeBandColorCount()
+	setTimeout(() => {
+		ApplyVizConfig()
+	}, 500)
 
 	function ApplyVizConfig(){ 
 		vizOptions = {"Band_count":Band_count,
@@ -25,7 +31,22 @@
 		VizConfig(vizOptions)
 	}
 
-	function ChangeBandColorCount(){ Band_colors.length = Band_count; Band_amps.length = Band_count }//Band_colors.slice(0,band_count)
+	function ChangeBandColorCount(){ 
+		Band_colors.length = Band_count; 
+		Band_amps.length = Band_count 
+		
+		//set in default values for empty fields
+		for(let i = 0; i < Band_count; i++){
+			if(Band_colors[i] == null){
+				Band_colors[i] = def_colors[i]
+			}
+
+			if(Band_amps[i] == 0){
+				Band_amps[i] = def_amp
+			}
+		}
+	}
+
 </script>
 
 <div class="top_config">

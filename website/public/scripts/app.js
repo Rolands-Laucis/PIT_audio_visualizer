@@ -4,6 +4,13 @@ var the_Song = null
 var fft = null
 var windowWidthOffset = 35
 var bands = []
+var point_distributions = {
+    '1':[1],
+    '2':[0.6,0.40],
+    '3':[0.50,0.30,0.20],
+    '4':[0.40,0.30,0.20,0.10],
+    '5':[0.35,0.30,0.20,0.10,0.05]
+}
 
 //vizualization config
 var vizConfig = {}
@@ -31,23 +38,39 @@ function setup() {
     background(bg)
 
     fft = new p5.FFT(0.8, vizConfig['FFT_res']);
+
 }
 
 function draw() {
-    //background(bg);
-
+    background(bg);
+    /*
     bands.forEach(b => {
         //b.UpdatePoints()
         b.Draw()
     })
-
+    */
     if(the_Song != null && the_Song.isPlaying()){
         var spectrum = fft.analyze(vizConfig['FFT_res']);
-        
-        bands.forEach(b => {
-            //b.UpdatePoints()
-            b.Draw()
-        })
+        var spec_to_p_distribution = []
+        var offset = 0
+
+        for(let i = 0; i < vizConfig['FFT_res']; i++){
+            var distrb = []
+
+            for(let j = 0; j < Math.round(point_distributions[String(vizConfig['Band_count'])][i] * vizConfig['FFT_res']); j++){
+                distrb.push(spectrum[offset+j])
+            }
+
+            spec_to_p_distribution.push(distrb)
+
+            offset += Math.round(point_distributions[String(vizConfig['Band_count'])][i] * vizConfig['FFT_res'])
+        }
+
+        for(let i = 0; i < bands.length; i++){
+            bands[i].UpdatePoints(spec_to_p_distribution[i])
+            bands[i].Draw()
+        }
+
     }
 }
 
@@ -77,17 +100,18 @@ function VizConfig(options){
     frameRate(vizConfig['FPS'])
 
     bands.length = 0
-    for(i = 0; i < vizConfig['Band_count']; i++){
+    var point_distribution = point_distributions[String(vizConfig['Band_count'])]
+    
+    for(let i = 0; i < vizConfig['Band_count']; i++){
         bands.push(new Band({'width':windowWidth-windowWidthOffset, 
-                            'height':canvasHeight, 
-                            'fidelity':7, 'point_count':5, 
+                            'height':(canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count'], 
+                            'fidelity':7, 
+                            'point_count':Math.round(point_distribution[i] * vizConfig['FFT_res'])-1, 
                             'color':vizConfig['Band_colors'][i], 
                             'amp':vizConfig['Band_amps'][i],
-                            'thickness':5
+                            'thickness':50
                             }))
     }
-
-    console.log(bands)
 }
 
 function CapConfig(options){

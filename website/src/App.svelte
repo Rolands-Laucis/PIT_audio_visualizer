@@ -4,6 +4,7 @@
 
 	function Start(){ StartVizualization() }
 	function Load(song){ LoadSong(song) }
+
 </script>
 
 <main>
