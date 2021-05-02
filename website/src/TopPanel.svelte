@@ -1,16 +1,16 @@
 <script>	
 	//visualization panel options
-	let vizCofigPanel = true;
-	let Band_count = 3
+	let vizCofigPanel = false;
+	let Band_count = 5
 	let Band_colors = []
 	let Band_amps = []
 	let FFT_resolutions = [16,32,64,128,256,512,1024]
-	let FFT_res = 64
+	let FFT_res = 256
 	let FPS = 60
 	let Changing_bg = false
 
 	//option defaults
-	let def_colors = ['214753','2E542D','CC5620','E58C29','F4AD2B']
+	let def_colors = ['1A50B4','3DB8CA','E2E34F','E7A82B','DA2930']
 	let def_amp = 1;
 	let vizOptions = {}
 

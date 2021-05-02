@@ -1,16 +1,18 @@
 //this script settings, that arent in the users control
-var canvasHeight = 500
+var canvasHeight = 800
 var the_Song = null
 var fft = null
 var windowWidthOffset = 35
 var bands = []
 var point_distributions = {
     '1':[1],
-    '2':[0.6,0.40],
+    '2':[0.5,0.5],
     '3':[0.50,0.30,0.20],
     '4':[0.40,0.30,0.20,0.10],
     '5':[0.35,0.30,0.20,0.10,0.05]
 }
+//how close should the bands be together visualy 
+var bands_visual_compression = 0.5
 
 //vizualization config
 var vizConfig = {}
@@ -29,28 +31,37 @@ function setup() {
     c.parent(document.getElementById('vizualization_canvas'))
     getAudioContext().suspend()
     frameRate(60)
+
     p5bezier.initBezier(c)
+
+    fft = new p5.FFT(0.8, vizConfig['FFT_res']);
 
     console.log("Canvas initialized, can start drawing...")
 
     //setup background color
-    bg = color(54, 55, 67, 255)
-    background(bg)
+    //bg = color(54, 55, 67, 255) 83dbd2 152339  EA7350 DCD6B0 F07571
+    //bg = color('#EAE5D5')
+    bg = color('#000000')
+    //bg = color('#ffffff')
+    bg.setAlpha(30)
 
-    fft = new p5.FFT(0.8, vizConfig['FFT_res']);
-
+    noFill()
 }
 
 function draw() {
+    blendMode(BLEND)
+    //background('#000000')
     background(bg);
+    blendMode(ADD)
+
     /*
-    bands.forEach(b => {
-        //b.UpdatePoints()
+    bands.forEach((b) => {
         b.Draw()
     })
     */
+
     if(the_Song != null && the_Song.isPlaying()){
-        var spectrum = fft.analyze(vizConfig['FFT_res']);
+        var spectrum = fft.waveform(vizConfig['FFT_res']);
         var spec_to_p_distribution = []
         var offset = 0
 
@@ -103,13 +114,20 @@ function VizConfig(options){
     var point_distribution = point_distributions[String(vizConfig['Band_count'])]
     
     for(let i = 0; i < vizConfig['Band_count']; i++){
+        //var band_height = (((canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count']) * bands_visual_compression) + (canvasHeight)/2
+        var band_height = canvasHeight/2//((canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count'])
+        var point_count = Math.round(point_distribution[i] * vizConfig['FFT_res'])-1
+        var fidelity = 4//Math.round(map(point_count, 0, vizConfig['FFT_res'], 6, 3))
+        var thickness = 30//Math.round(map(point_count, 0, vizConfig['FFT_res'], 10, 300))
+
         bands.push(new Band({'width':windowWidth-windowWidthOffset, 
-                            'height':(canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count'], 
-                            'fidelity':7, 
-                            'point_count':Math.round(point_distribution[i] * vizConfig['FFT_res'])-1, 
+                            'height': band_height, 
+                            'fidelity': fidelity, 
+                            'point_count': point_count, 
                             'color':vizConfig['Band_colors'][i], 
                             'amp':vizConfig['Band_amps'][i],
-                            'thickness':50
+                            'thickness':thickness,
+                            'alpha': Math.round(255/vizConfig['Band_count'])
                             }))
     }
 }
