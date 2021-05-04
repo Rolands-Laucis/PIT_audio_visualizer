@@ -1,20 +1,22 @@
 <script>	
 	//visualization panel options
-	let vizCofigPanel = false;
+	let vizCofigPanel = true;
 	let Band_count = 5
 	let Band_colors = []
 	let Band_amps = []
 	let FFT_resolutions = [16,32,64,128,256,512,1024]
 	let FFT_res = 256
 	let FPS = 60
-	let Changing_bg = false
+	let band_spacing = false
+	let taper = true
 
 	//option defaults
-	let def_colors = ['1A50B4','3DB8CA','E2E34F','E7A82B','DA2930']
+	let def_colors = ['1A50B4','3DB8CA','a84fe3','e7802b','DA2930']
 	let def_amp = 1;
 	let vizOptions = {}
 
 	ChangeBandColorCount()
+	//wait for p5 and app to set up
 	setTimeout(() => {
 		ApplyVizConfig()
 	}, 500)
@@ -25,7 +27,8 @@
 						"Band_amps":Band_amps,
 						"FFT_res":FFT_res,
 						"FPS":FPS,
-						"Changing_bg":Changing_bg
+						"band_spacing":band_spacing,
+						'taper':taper
 		}
 		console.log(vizOptions) 
 		VizConfig(vizOptions)
@@ -93,13 +96,21 @@
 
 		<br>
 		<div class="option">
-			<p class="left">Changing background:</p>
+			<p class="left">Space out bands:</p>
 			<label class="switch">
-				<input type="checkbox" checked bind:value={Changing_bg}>
+				<input type="checkbox" bind:checked={band_spacing}>
 				<span class="slider round"></span>
 			</label>
 		</div>
 
+		<br>
+		<div class="option">
+			<p class="left">Taper bands:</p>
+			<label class="switch">
+				<input type="checkbox" bind:checked={taper}>
+				<span class="slider round"></span>
+			</label>
+		</div>
 
 	{/if}
 </div>
@@ -113,116 +124,56 @@
 
 br{
 	height: 0px;
+	display: none;
 }
 
 .top_config{
 	padding-top: 5%;
 	height: auto;
-	display: block;
+	width: 60%;
+	margin: auto;
 	text-align: center;
-	margin-left: 30%;
-	margin-right: 30%;
-	vertical-align: middle;
 }
 
 .option{
-	padding-top: 3%;
+	padding-top: 2%;
 	height: auto;
 	display: flex;
-	vertical-align: middle;
-    margin: none;
+	text-align: center;
+    padding-left: auto;
+    padding-right: auto;
 }
 
 .numField{
+	text-align: center;
 	margin-top: var(--field_marg_top);
-	height: 30px;
+	height: 25px;
 	vertical-align: middle;
 	width: 40px;
 	border: none;
 	border-radius: 10px;
+	margin-right: 10px;
 }
 
 .textField{
+	text-align: center;
 	margin-top: var(--field_marg_top_2);
 	margin-left: 10px;
-	height: 2%;
+	height: 25px;
+	width: 55px;
 	vertical-align: middle;
-	width: 6%;
 	border: none;
 	border-radius: 10px;
 }
 
 select{
+	text-align: center;
 	margin-top: var(--field_marg_top_2);
-	height: 2%;
+	height: 25px;
+	width: 55px;
 	vertical-align: middle;
-	width: 6%;
 	border: none;
 	border-radius: 10px;
-}
-
-/* slider stuff */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-	background: rgb(213,51,105);
-	background: -moz-linear-gradient(90deg, rgba(213,51,105,1) 0%, rgba(218,174,81,1) 100%);
-	background: -webkit-linear-gradient(90deg, rgba(213,51,105,1) 0%, rgba(218,174,81,1) 100%);
-	background: linear-gradient(90deg, rgba(213,51,105,1) 0%, rgba(218,174,81,1) 100%);
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
 }
 
 </style>

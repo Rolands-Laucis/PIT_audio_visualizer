@@ -1,7 +1,12 @@
 //this script settings, that arent in the users control
-var canvasHeight = 800
+//objects
 var the_Song = null
 var fft = null
+var capturer = null
+var canvas = null
+
+//value variables
+var canvasHeight = 900
 var windowWidthOffset = 35
 var bands = []
 var point_distributions = {
@@ -11,7 +16,7 @@ var point_distributions = {
     '4':[0.40,0.30,0.20,0.10],
     '5':[0.35,0.30,0.20,0.10,0.05]
 }
-//how close should the bands be together visualy 
+//how close should the bands be together visualy. Only really works with 0.5 rn
 var bands_visual_compression = 0.5
 
 //vizualization config
@@ -24,15 +29,16 @@ function preload() {
     soundFormats('mp3');
 }
 
+//              --MAIN--
 
 function setup() {
     //setup canvas to be in the right div on the site
-    let c = createCanvas(windowWidth-windowWidthOffset, canvasHeight)
-    c.parent(document.getElementById('vizualization_canvas'))
+    canvas = createCanvas(windowWidth-windowWidthOffset, canvasHeight)
+    canvas.parent(document.getElementById('vizualization_canvas'))
     getAudioContext().suspend()
     frameRate(60)
 
-    p5bezier.initBezier(c)
+    p5bezier.initBezier(canvas)
 
     fft = new p5.FFT(0.8, vizConfig['FFT_res']);
 
@@ -43,7 +49,7 @@ function setup() {
     //bg = color('#EAE5D5')
     bg = color('#000000')
     //bg = color('#ffffff')
-    bg.setAlpha(30)
+    bg.setAlpha(40)
 
     noFill()
 }
@@ -81,7 +87,9 @@ function draw() {
             bands[i].UpdatePoints(spec_to_p_distribution[i])
             bands[i].Draw()
         }
-
+        if(capCofig['cap_video']){
+            capturer.capture(canvas.elt);
+        }
     }
 }
 
@@ -91,12 +99,18 @@ function StartVizualization() {
     getAudioContext().resume()
     if(the_Song.isPlaying()){
         the_Song.stop()
-        //capturer.stop();
-        //capturer.save();
+
+        if(capCofig['cap_video']){
+            capturer.stop();
+            capturer.save();
+        }
     }else{
         userStartAudio();
         the_Song.play()
-        //capturer.start();
+
+        if(capCofig['cap_video']){
+            capturer.start();
+        }
     }
 }
 
@@ -115,7 +129,7 @@ function VizConfig(options){
     
     for(let i = 0; i < vizConfig['Band_count']; i++){
         //var band_height = (((canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count']) * bands_visual_compression) + (canvasHeight)/2
-        var band_height = canvasHeight/2//((canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count'])
+        var band_height = vizConfig['band_spacing'] ? ((canvasHeight/vizConfig['Band_count'])/2 + canvasHeight*i/vizConfig['Band_count']) : canvasHeight/2
         var point_count = Math.round(point_distribution[i] * vizConfig['FFT_res'])-1
         var fidelity = 4//Math.round(map(point_count, 0, vizConfig['FFT_res'], 6, 3))
         var thickness = 30//Math.round(map(point_count, 0, vizConfig['FFT_res'], 10, 300))
@@ -127,13 +141,34 @@ function VizConfig(options){
                             'color':vizConfig['Band_colors'][i], 
                             'amp':vizConfig['Band_amps'][i],
                             'thickness':thickness,
-                            'alpha': Math.round(255/vizConfig['Band_count'])
+                            'taper':vizConfig['taper'],
+                            //'alpha': Math.round(255/vizConfig['Band_count']),
+                            'max_amp_px': vizConfig['band_spacing'] ? Clamp(40*(i+1), 0, 400) : Clamp(150*(i+1), 0, 400)
                             }))
     }
 }
 
 function CapConfig(options){
     capCofig = options
+
+    if(capCofig['cap_video']){
+        capturer = new CCapture( { 
+            format: capCofig['format'],
+            workersPath: './capture/',
+            framerate: capCofig['FPS'],
+            verbose: false,
+            name: 'AudioVizualization',
+            timeLimit: 360,
+            autoSaveTime: capCofig['interval'] == 0 ? 360 : capCofig['interval']
+        } );
+    }
+}
+
+function ForceSaveVideo(){
+    if(capturer != null){
+        capturer.stop();
+        capturer.save();
+    }
 }
 
 function windowResized() {
@@ -142,6 +177,10 @@ function windowResized() {
 
 function Random(min, max) {
     return Math.floor(Math.random() * (max + 1)) + min;
+}
+
+function Clamp(val,min,max){
+    return Math.max(min,Math.min(max,val));
 }
 
 //export {StartVizualization, LoadSong, setup, windowResized, draw, preload};

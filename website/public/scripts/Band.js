@@ -6,9 +6,8 @@ class Band{
     thickness
     amp
     height
-    alpha
-
-    max_amp_px = 400
+    taper
+    max_amp_px
 
     constructor(init){
         this.points = this.GenPointsLine(init)
@@ -17,10 +16,11 @@ class Band{
         this.thickness = init['thickness']
         this.amp = init['amp']
         this.height = Math.round(init['height'])
-        this.alpha = init['alpha']
+        this.taper = init['taper']
+        this.max_amp_px = init['max_amp_px']
 
         this.curve = p5bezier.newBezierObj(this.points, 'OPEN', this.fidelity)
-        console.log(this)
+        //console.log(this)
     }
 
     Draw(){
@@ -36,13 +36,17 @@ class Band{
         var p = []
 
         for(let i = 0; i < this.curve.controlPoints.length; i++){
-            var taper
-            if(i <= this.curve.controlPoints.length/2){
-                taper = map(i,0, this.curve.controlPoints.length/2, 0, 1) * this.max_amp_px
+            var taper_amount
+            if(this.taper){
+                if(i <= this.curve.controlPoints.length/2){
+                    taper_amount = map(i,0, this.curve.controlPoints.length/2, 0, 1) * this.max_amp_px
+                }else{
+                    taper_amount = map(i, this.curve.controlPoints.length/2,this.curve.controlPoints.length-1, 1, 0) * this.max_amp_px
+                }
             }else{
-                taper = map(i, this.curve.controlPoints.length/2,this.curve.controlPoints.length-1, 1, 0) * this.max_amp_px
+                taper_amount = this.max_amp_px
             }
-            p.push([this.curve.controlPoints[i][0], this.height + (amps[i] * taper)])
+            p.push([this.curve.controlPoints[i][0], this.height + (amps[i] * taper_amount)])
         }
 
         this.curve.update(p)

@@ -4,22 +4,29 @@
 	let capCofigPanel = false;
 	let FPS = 60
 	let interval = 0
-	let formats = ['WebM', 'GIF']
+	let formats = ['webm']
 	let format = formats[0]
+	let cap_video = false
 
 	let capOptions = {}
 
+	//wait for p5 and app to set up
+	setTimeout(() => {
+		ApplyCapConfig()
+	}, 500)
+	
 	function ApplyCapConfig(){ 
 		capOptions = {"FPS":FPS,
 						"interval":interval,
-						"format":format
+						"format":format,
+						'cap_video': cap_video
 		}
 		console.log(capOptions)
 		CapConfig(capOptions) 
 	}
 
 	function SaveVideo(){
-
+		ForceSaveVideo()
 	}
 
 </script>
@@ -49,6 +56,15 @@
 					<option value={f}>{f}</option>
 				{/each}
 			</select>
+		</div>
+
+		<br>
+		<div class="option">
+			<p class="left">Capture video:</p>
+			<label class="switch">
+				<input type="checkbox" bind:checked={cap_video}>
+				<span class="slider round"></span>
+			</label>
 		</div>
 	{/if}
 
@@ -85,4 +101,15 @@
 	border: none;
 	border-radius: 10px;
 }
+
+select{
+	text-align: center;
+	margin-top: var(--field_marg_top_2);
+	height: 25px;
+	width: 65px;
+	vertical-align: middle;
+	border: none;
+	border-radius: 10px;
+}
+
 </style>
