@@ -1,6 +1,6 @@
 <script>	
 	//visualization panel options
-	let vizCofigPanel = true;
+	let vizCofigPanel = true
 	let Band_count = 5
 	let Band_colors = []
 	let Band_amps = []
@@ -128,7 +128,7 @@ br{
 }
 
 .top_config{
-	padding-top: 5%;
+	padding-top: 2vh;
 	height: auto;
 	width: 60%;
 	margin: auto;
@@ -136,42 +136,34 @@ br{
 }
 
 .option{
-	padding-top: 2%;
-	height: auto;
+	padding-top: 2vh;
 	display: flex;
 	text-align: center;
-    padding-left: auto;
-    padding-right: auto;
+	justify-content:center;
 }
 
 .numField{
-	text-align: center;
 	margin-top: var(--field_marg_top);
+	margin-right: 10px;
 	height: 25px;
-	vertical-align: middle;
 	width: 40px;
 	border: none;
 	border-radius: 10px;
-	margin-right: 10px;
 }
 
 .textField{
-	text-align: center;
 	margin-top: var(--field_marg_top_2);
-	margin-left: 10px;
+	margin-right: 10px;
 	height: 25px;
 	width: 55px;
-	vertical-align: middle;
 	border: none;
 	border-radius: 10px;
 }
 
 select{
-	text-align: center;
 	margin-top: var(--field_marg_top_2);
 	height: 25px;
 	width: 55px;
-	vertical-align: middle;
 	border: none;
 	border-radius: 10px;
 }

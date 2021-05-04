@@ -1,7 +1,7 @@
 <script>
 	
 	//capture panel options
-	let capCofigPanel = false;
+	let capCofigPanel = true;
 	let FPS = 60
 	let interval = 0
 	let formats = ['webm']
@@ -75,28 +75,26 @@
 
 .bot_config{
 	padding-top: 5%;
-	height: auto;
-
 	display: block;
+
+	padding-top: 5%;
+	height: auto;
+	width: 60%;
+	margin: auto;
 	text-align: center;
-	margin-left: 30%;
-	margin-right: 30%;
-	padding-bottom: 5%;
-	vertical-align: middle;
 }
 
 .option{
-	padding-top: 3%;
-	height: auto;
+	padding-top: 2vh;
 	display: flex;
-	vertical-align: middle;
-    margin: none;
+	text-align: center;
+	justify-content:center;
 }
 
 .numField{
 	margin-top: var(--field_marg_top);
+	margin-right: 10px;
 	height: 30px;
-	vertical-align: middle;
 	width: 40px;
 	border: none;
 	border-radius: 10px;
@@ -107,7 +105,6 @@ select{
 	margin-top: var(--field_marg_top_2);
 	height: 25px;
 	width: 65px;
-	vertical-align: middle;
 	border: none;
 	border-radius: 10px;
 }

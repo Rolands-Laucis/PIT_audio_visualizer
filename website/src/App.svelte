@@ -38,8 +38,8 @@ input[type="file"] {
 
 .canvas_panel{
 	text-align: center;
-	padding-top: 4%;
-	padding-bottom: 2%;
+	padding-top: 0vh;
+	padding-bottom: 2vh;
 }
 
 </style>
