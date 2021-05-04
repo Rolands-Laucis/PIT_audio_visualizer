@@ -39,7 +39,7 @@ input[type="file"] {
 .canvas_panel{
 	text-align: center;
 	padding-top: 0vh;
-	padding-bottom: 2vh;
+	padding-bottom: var(--standard-padding);
 }
 
 </style>

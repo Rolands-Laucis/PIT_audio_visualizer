@@ -1,6 +1,6 @@
 <script>	
 	//visualization panel options
-	let vizCofigPanel = true
+	let vizCofigPanel = false
 	let Band_count = 5
 	let Band_colors = []
 	let Band_amps = []
@@ -117,18 +117,8 @@
 
 <style>
 
-:root {
-  --field_marg_top: 10px;
-  --field_marg_top_2: 15px;
-}
-
-br{
-	height: 0px;
-	display: none;
-}
-
 .top_config{
-	padding-top: 2vh;
+	padding-top: var(--standard-padding);
 	height: auto;
 	width: 60%;
 	margin: auto;
@@ -136,7 +126,7 @@ br{
 }
 
 .option{
-	padding-top: 2vh;
+	padding-top: var(--standard-padding);
 	display: flex;
 	text-align: center;
 	justify-content:center;

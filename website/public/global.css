@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 
+:root{
+	--field_marg_top: 10px;
+  	--field_marg_top_2: 15px;
+	--standard-padding: 2vh;
+}
+
 html, body {
 	position: relative;
 	width: 100%;
@@ -16,6 +22,11 @@ html, body {
 	background: -webkit-linear-gradient(90deg, rgba(218,174,81,1) 0%, rgba(213,51,105,1) 50%, rgba(218,174,81,1) 100%);
 	background: linear-gradient(90deg, #daae51 0%, #d53369 50%, rgba(218,174,81,1) 100%);
 	
+}
+
+br{
+	height: 0px;
+	display: none;
 }
 
 .myButton{

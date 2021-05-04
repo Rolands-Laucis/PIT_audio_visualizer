@@ -1,7 +1,7 @@
 <script>
 	
 	//capture panel options
-	let capCofigPanel = true;
+	let capCofigPanel = false;
 	let FPS = 60
 	let interval = 0
 	let formats = ['webm']
@@ -74,10 +74,10 @@
 <style>
 
 .bot_config{
-	padding-top: 5%;
+	padding-top: var(--standard-padding);
+	padding-bottom: var(--standard-padding);
 	display: block;
 
-	padding-top: 5%;
 	height: auto;
 	width: 60%;
 	margin: auto;
@@ -85,7 +85,7 @@
 }
 
 .option{
-	padding-top: 2vh;
+	padding-top: var(--standard-padding);
 	display: flex;
 	text-align: center;
 	justify-content:center;
