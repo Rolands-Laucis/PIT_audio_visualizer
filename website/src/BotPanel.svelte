@@ -46,6 +46,9 @@
 		<div class="option">
 			<p class="left">Video fragment download interval (sec):</p>
 			<input type="number" min="0" max="300" class="numField right frosted" bind:value={interval}/>
+			{#if interval == 0}
+				<p class="right">0 means it will download when song is over!</p>
+			{/if}
 		</div>
 
 		<br>

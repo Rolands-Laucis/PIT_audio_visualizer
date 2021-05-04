@@ -22,6 +22,13 @@
 	}, 500)
 
 	function ApplyVizConfig(){ 
+		def_colors.forEach(c => {
+			if(/[0-9A-Fa-f]{6}$/i.test(c) == false){
+				console.log('Invalid hex color!') 
+				alert('You have entered an invalid hex color code representation! (e.g. ffffff)')
+				return
+			}
+		})
 		vizOptions = {"Band_count":Band_count,
 						"Band_colors":Band_colors,
 						"Band_amps":Band_amps,

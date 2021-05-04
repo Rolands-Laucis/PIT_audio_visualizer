@@ -95,29 +95,45 @@ function draw() {
 
 //call this from a button click or user interaction
 function StartVizualization() {
-    console.log("Starting vizualization...")
-    getAudioContext().resume()
-    if(the_Song.isPlaying()){
-        the_Song.stop()
+    if(the_Song != null){
+        console.log("Starting vizualization...")
+        getAudioContext().resume()
+        if(the_Song.isPlaying()){
+            the_Song.stop()
 
-        if(capCofig['cap_video']){
-            capturer.stop();
-            capturer.save();
+            if(capCofig['cap_video']){
+                capturer.stop()
+                capturer.save()
+            }
+        }else{
+            userStartAudio();
+            the_Song.play()
+
+            if(capCofig['cap_video']){
+                capturer.start();
+            }
         }
     }else{
-        userStartAudio();
-        the_Song.play()
-
-        if(capCofig['cap_video']){
-            capturer.start();
-        }
+        alert('You must first load in a song in the .mp3 format!')
     }
 }
 
 function LoadSong(song){
     //console.log(song.target.files[0])
-    the_Song = loadSound(song.target.files[0]);
-    console.log("loaded song: " + song.target.files[0].name)
+    try{
+        the_Song = loadSound(song.target.files[0]);
+        the_Song.onended(() => {
+            if(capturer != null){
+                capturer.stop()
+                capturer.save()
+            }
+            console.log('Song ended!')
+        })
+        console.log("loaded song: " + song.target.files[0].name)
+    }catch (error){
+        console.log(error);
+        alert('Sorry, there was an error loading the song.')
+    }
 }
 
 function VizConfig(options){
@@ -166,13 +182,14 @@ function CapConfig(options){
 
 function ForceSaveVideo(){
     if(capturer != null){
-        capturer.stop();
-        capturer.save();
+        //capturer.stop()
+        capturer.save()
     }
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth-windowWidthOffset, canvasHeight);
+    resizeCanvas(windowWidth-windowWidthOffset, canvasHeight)
+    VizConfig(vizConfig)
 }
 
 function Random(min, max) {
