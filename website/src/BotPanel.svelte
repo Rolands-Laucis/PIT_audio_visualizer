@@ -32,28 +32,31 @@
 </script>
 
 <div class="bot_config">
-	<button class="myButton frosted left" on:click={ApplyCapConfig}>Apply</button>
-	<button class="myButton frosted right" on:click={()=>capCofigPanel = !capCofigPanel}>_</button>
+	<div class='flex-justified'>
+		<button class="myButton frosted left" on:click={ApplyCapConfig}>Apply</button>
+		<button class="myButton frosted right" on:click={()=>capCofigPanel = !capCofigPanel}>_</button>
+	</div>
 
 	{#if capCofigPanel}
 		<br>
 		<div class="option">
-			<p class="left">Video capture frame rate:</p>
-			<input type="number" min="1" max="60" class="numField right frosted" bind:value={FPS}/>
+			<p>Video capture frame rate:</p>
+			<input type="number" min="1" max="60" class="numField frosted" bind:value={FPS}/>
 		</div>
 
 		<br>
 		<div class="option">
-			<p class="left">Video fragment download interval (sec):</p>
-			<input type="number" min="0" max="300" class="numField right frosted" bind:value={interval}/>
-			{#if interval == 0}
-				<p class="right">0 means it will download when song is over!</p>
-			{/if}
+			<p>Video fragment download interval (sec):
+				{#if interval == 0}
+					<p style='text-align: left'>0 means it will download when song is over!</p>
+				{/if}
+			</p>
+			<input type="number" min="0" max="300" class="numField frosted" bind:value={interval}/>
 		</div>
 
 		<br>
 		<div class="option">
-			<p class="left">Frequency spectrum resolution:</p>
+			<p>Frequency spectrum resolution:</p>
 			<select bind:value={format} class='frosted'>
 				{#each formats as f}
 					<option value={f}>{f}</option>
@@ -63,7 +66,7 @@
 
 		<br>
 		<div class="option">
-			<p class="left">Capture video:</p>
+			<p>Capture video:</p>
 			<label class="switch">
 				<input type="checkbox" bind:checked={cap_video}>
 				<span class="slider round"></span>
@@ -87,11 +90,17 @@
 	text-align: center;
 }
 
+.flex-justified{
+	display: flex;
+	text-align: center;
+	justify-content:space-between;
+}
+
 .option{
 	padding-top: var(--standard-padding);
 	display: flex;
 	text-align: center;
-	justify-content:center;
+	justify-content: space-between;
 }
 
 .numField{

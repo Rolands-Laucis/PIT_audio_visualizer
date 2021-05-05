@@ -3,7 +3,14 @@
 	import BotPanel from './BotPanel.svelte'
 
 	function Start(){ StartVizualization() }
-	function Load(song){ LoadSong(song) }
+	function Load(song){ 
+		if(IsPlaying()){
+			console.log('Sorry, cannot load another song while a song is playing!')
+			alert('Sorry, cannot load another song while a song is playing!')
+		}else{
+			LoadSong(song) 
+		}
+	}
 
 </script>
 

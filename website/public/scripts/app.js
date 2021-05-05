@@ -187,6 +187,15 @@ function ForceSaveVideo(){
     }
 }
 
+function IsPlaying(){
+    if(the_Song != null){
+        return the_Song.isPlaying()
+    }
+    else{
+        return false
+    }
+}
+
 function windowResized() {
     resizeCanvas(windowWidth-windowWidthOffset, canvasHeight)
     VizConfig(vizConfig)

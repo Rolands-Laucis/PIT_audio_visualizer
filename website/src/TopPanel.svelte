@@ -1,6 +1,6 @@
 <script>	
 	//visualization panel options
-	let vizCofigPanel = false
+	let vizCofigPanel = true
 	let Band_count = 5
 	let Band_colors = []
 	let Band_amps = []
@@ -22,10 +22,12 @@
 	}, 500)
 
 	function ApplyVizConfig(){ 
-		def_colors.forEach(c => {
+		var valid = true
+		Band_colors.forEach(c => {
 			if(/[0-9A-Fa-f]{6}$/i.test(c) == false){
 				console.log('Invalid hex color!') 
 				alert('You have entered an invalid hex color code representation! (e.g. ffffff)')
+				valid = false
 				return
 			}
 		})
@@ -37,8 +39,10 @@
 						"band_spacing":band_spacing,
 						'taper':taper
 		}
-		console.log(vizOptions) 
-		VizConfig(vizOptions)
+		if(valid){
+			console.log(vizOptions) 
+			VizConfig(vizOptions)
+		}
 	}
 
 	function ChangeBandColorCount(){ 
@@ -60,34 +64,38 @@
 </script>
 
 <div class="top_config">
-	<button class="myButton frosted left" on:click={ApplyVizConfig}>Apply</button>
-	<button class="myButton frosted right" on:click={()=>vizCofigPanel = !vizCofigPanel}>_</button>
+	<div class='flex-justified'>
+		<button class="myButton frosted left" on:click={ApplyVizConfig}>Apply</button>
+		<button class="myButton frosted right" on:click={()=>vizCofigPanel = !vizCofigPanel}>_</button>
+	</div>
 	{#if vizCofigPanel}
 		<br>
+		<div class='space'></div>
+		<br>
 		<div class="option">
-			<p class="left">Color band count:</p>
-			<input type="number" min="1" max="5" class="numField right frosted" bind:value={Band_count} on:change={ChangeBandColorCount}/>
+			<p>Color band count:</p>
+			<input type="number" min="1" max="5" class="numField frosted" bind:value={Band_count} on:change={ChangeBandColorCount}/>
 		</div>
 
 		<br>
 		<div class="option">
-			<p class="left">Color band colors:</p>
+			<p>Color band colors:</p>
 			{#each Band_colors as color} 
-				<input type="text" class="textField right frosted" maxlength="6" placeholder='ffffff' bind:value={color}/>
+				<input type="text" class="textField frosted" maxlength="6" placeholder='ffffff' bind:value={color}/>
 			{/each}
 		</div>
 
 		<br>
 		<div class="option">
-			<p class="left">Color band amplitudes:</p>
+			<p>Color band amplitudes:</p>
 			{#each Band_amps as amp} 
-				<input type="number" min="0" max="1" class="numField right frosted" placeholder='0.5' bind:value={amp}/>
+				<input type="number" min="0" max="1" class="numField frosted" placeholder='0.5' bind:value={amp}/>
 			{/each}
 		</div>
 
 		<br>
 		<div class="option">
-			<p class="left">Frequency spectrum resolution:</p>
+			<p>Frequency spectrum resolution:</p>
 			<select bind:value={FFT_res} class='frosted'>
 				{#each FFT_resolutions as res}
 					<option value={res}>{res}</option>
@@ -97,13 +105,13 @@
 
 		<br>
 		<div class="option">
-			<p class="left">visualization frame rate:</p>
-			<input type="number" min="1" max="60" class="numField right frosted" bind:value={FPS}/>
+			<p>visualization frame rate:</p>
+			<input type="number" min="1" max="60" class="numField frosted" bind:value={FPS}/>
 		</div>
 
 		<br>
 		<div class="option">
-			<p class="left">Space out bands:</p>
+			<p>Space out bands:</p>
 			<label class="switch">
 				<input type="checkbox" bind:checked={band_spacing}>
 				<span class="slider round"></span>
@@ -112,7 +120,7 @@
 
 		<br>
 		<div class="option">
-			<p class="left">Taper bands:</p>
+			<p>Taper bands:</p>
 			<label class="switch">
 				<input type="checkbox" bind:checked={taper}>
 				<span class="slider round"></span>
@@ -132,16 +140,29 @@
 	text-align: center;
 }
 
+.space{
+	width: auto;
+	height: var(--standard-padding);
+}
+
+.flex-justified{
+	display: flex;
+	text-align: center;
+	justify-content:space-between;
+}
+
 .option{
+	margin: none;
+	padding: none;
+	width: auto;
 	padding-top: var(--standard-padding);
 	display: flex;
 	text-align: center;
-	justify-content:center;
+	justify-content: space-between;
 }
 
 .numField{
 	margin-top: var(--field_marg_top);
-	margin-right: 10px;
 	height: 25px;
 	width: 40px;
 	border: none;
@@ -150,7 +171,6 @@
 
 .textField{
 	margin-top: var(--field_marg_top_2);
-	margin-right: 10px;
 	height: 25px;
 	width: 55px;
 	border: none;
