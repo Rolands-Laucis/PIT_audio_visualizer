@@ -8,6 +8,7 @@ Lietotājs webā ievada audio failu (labākajā gadījumā mūziku) un redz tā 
 Runs on Node.js with Svelte framwork. p5.js lib for graphics rendering, p5.sound.js lib for loading in sound and analyzing, ccapture.js lib for exporting a rendering of the canvas as video.
 
 # Running
+from inside ./website/
 install all node modules
 `npm install`
 
