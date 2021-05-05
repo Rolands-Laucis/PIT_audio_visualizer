@@ -9,6 +9,7 @@ Runs on Node.js with Svelte framwork. p5.js lib for graphics rendering, p5.sound
 
 # Running
 from inside ./website/
+
 install all node modules
 `npm install`
 
