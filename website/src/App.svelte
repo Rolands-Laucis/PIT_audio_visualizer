@@ -1,3 +1,6 @@
+<!--
+Author: Rolands Laucis
+-->
 <script>
 	import TopPanel from './TopPanel.svelte'
 	import BotPanel from './BotPanel.svelte'

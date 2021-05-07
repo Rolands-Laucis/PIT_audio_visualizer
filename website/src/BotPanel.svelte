@@ -1,3 +1,6 @@
+<!--
+Author: Rolands Laucis
+-->
 <script>
 	
 	//capture panel options

@@ -1,6 +1,10 @@
+<!--
+Author: Rolands Laucis
+-->
 <script>	
+
 	//visualization panel options
-	let vizCofigPanel = true
+	let vizCofigPanel = false
 	let Band_count = 5
 	let Band_colors = []
 	let Band_amps = []
@@ -45,6 +49,7 @@
 		}
 	}
 
+	
 	function ChangeBandColorCount(){ 
 		Band_colors.length = Band_count; 
 		Band_amps.length = Band_count 
@@ -55,11 +60,12 @@
 				Band_colors[i] = def_colors[i]
 			}
 
-			if(Band_amps[i] == 0){
+			if(Band_amps[i] == null){
 				Band_amps[i] = def_amp
 			}
 		}
 	}
+	
 
 </script>
 
@@ -74,22 +80,22 @@
 		<br>
 		<div class="option">
 			<p>Color band count:</p>
-			<input type="number" min="1" max="5" class="numField frosted" bind:value={Band_count} on:change={ChangeBandColorCount}/>
+			<input type="number" min="1" max="5" class="numField frosted" bind:value={Band_count}/>
 		</div>
 
 		<br>
 		<div class="option">
 			<p>Color band colors:</p>
-			{#each Band_colors as color} 
-				<input type="text" class="textField frosted" maxlength="6" placeholder='ffffff' bind:value={color}/>
+			{#each Array(Band_count) as _,index} 
+				<input type="text" class="textField frosted" maxlength="6" placeholder='ffffff' bind:value={Band_colors[index]}/>
 			{/each}
 		</div>
 
 		<br>
 		<div class="option">
 			<p>Color band amplitudes:</p>
-			{#each Band_amps as amp} 
-				<input type="number" min="0" max="1" class="numField frosted" placeholder='0.5' bind:value={amp}/>
+			{#each Array(Band_count) as _,index} 
+				<input type="number" min="0" max="1" step="0.1" class="numField frosted" placeholder='0.5' bind:value={Band_amps[index]}/>
 			{/each}
 		</div>
 

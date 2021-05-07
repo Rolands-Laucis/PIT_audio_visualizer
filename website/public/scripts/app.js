@@ -1,3 +1,7 @@
+/*
+Author: Rolands Laucis
+*/
+
 //this script settings, that arent in the users control
 //objects
 var the_Song = null

@@ -1,3 +1,7 @@
+/*
+Author: Rolands Laucis
+*/
+
 class Band{
     curve = null
     points = []
