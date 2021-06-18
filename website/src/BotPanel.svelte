@@ -1,5 +1,6 @@
 <!--
 Author: Rolands Laucis
+rolandslaucis.lv
 -->
 <script>
 	
@@ -59,7 +60,7 @@ Author: Rolands Laucis
 
 		<br>
 		<div class="option">
-			<p>Frequency spectrum resolution:</p>
+			<p>Video format</p>
 			<select bind:value={format} class='frosted'>
 				{#each formats as f}
 					<option value={f}>{f}</option>

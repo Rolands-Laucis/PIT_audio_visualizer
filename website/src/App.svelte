@@ -1,5 +1,6 @@
 <!--
 Author: Rolands Laucis
+rolandslaucis.lv
 -->
 <script>
 	import TopPanel from './TopPanel.svelte'
@@ -30,12 +31,15 @@ Author: Rolands Laucis
 	</div>
 
 	<BotPanel/>
+
+	<a class="footer" href="https://github.com/Rolands-Laucis/PIT_audio_visualizer" target="blank">Source code available at https://github.com/Rolands-Laucis/PIT_audio_visualizer</a>
 </main>
 
 <style>
 
 main{
 	height: 100%;
+	width: 100%;
 }
 
 input[type="file"] {
@@ -46,6 +50,11 @@ input[type="file"] {
 	text-align: center;
 	padding-top: 0vh;
 	padding-bottom: var(--standard-padding);
+}
+
+.footer{
+	text-align: center;
+	color: black;
 }
 
 </style>

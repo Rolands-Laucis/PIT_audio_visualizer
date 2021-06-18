@@ -1,5 +1,6 @@
 /*
 Author: Rolands Laucis
+rolandslaucis.lv
 */
 
 //this script settings, that arent in the users control
@@ -11,7 +12,7 @@ var canvas = null
 
 //value variables
 var canvasHeight = 900
-var windowWidthOffset = 35
+var windowWidthOffset = 0
 var bands = []
 var point_distributions = {
     '1':[1],

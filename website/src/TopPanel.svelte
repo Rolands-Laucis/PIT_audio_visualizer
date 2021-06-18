@@ -1,5 +1,6 @@
 <!--
 Author: Rolands Laucis
+rolandslaucis.lv
 -->
 <script>	
 
